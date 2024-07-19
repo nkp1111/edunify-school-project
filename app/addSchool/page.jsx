@@ -12,7 +12,7 @@ export default function AddSchool() {
 
   const onSubmit = (data) => {
     const { email, contact, name, address, city, state, } = data;
-
+    console.log(data)
     addNewSchool({ email_id: email, contact, name, address, city, state, }).then(data => {
       // console.log(data, "auth data")
       if (!data || data.error) {
@@ -30,13 +30,14 @@ export default function AddSchool() {
 
   return (
     <main className="flex flex-1 flex-col items-center px-12 py-5 min-h-[calc(100vh-5rem)]">
-      <h1 className="text-lg ">Add new school</h1>
+      <h1 className="text-lg mb-5">Add new school</h1>
 
       <form
         action=""
-        className="gap-2 flex flex-col mt-5"
+        className="gap-2 flex flex-col"
         noValidate
-        onSubmit={handleSubmit(onSubmit)}>
+        onSubmit={handleSubmit(onSubmit)}
+      >
 
         <label className="form-control w-full">
           <div className="label">
@@ -170,7 +171,7 @@ export default function AddSchool() {
         </label>
 
 
-        <button type="submit" className="btn btn-primary mt-5">Add new school</button>
+        <button className="btn btn-primary mt-5">Add new school</button>
       </form>
     </main>
   )

@@ -5,7 +5,7 @@ CREATE TABLE `School` (
     `address` TEXT NOT NULL,
     `city` TEXT NOT NULL,
     `state` TEXT NOT NULL,
-    `contact` BIGINT NOT NULL,
+    `contact` VARCHAR(191) NOT NULL,
     `image` TEXT NULL,
     `email_id` TEXT NOT NULL,
 
