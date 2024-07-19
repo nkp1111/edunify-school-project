@@ -3,9 +3,9 @@ import prisma from "../../../config/db";
 import { SchoolSchema } from "../../../lib/validation"
 
 
-export async function GET() {
+export async function GET(request) {
   try {
-    const schools = await prisma.school.findMany()
+    const schools = await prisma.school.findMany({})
     return NextResponse.json({ schools }, { status: 200 })
   } catch (error) {
     console.error(error);
@@ -17,13 +17,13 @@ export async function POST(request) {
   try {
     // validate school data
     const schoolData = await request.json();
-    const { success, error, data } = SchoolSchema.safeParse(schoolData);
-    if (!success) {
-      NextResponse.json({ error }, { status: 400 });
+    const { error, data } = SchoolSchema.safeParse(schoolData);
+    if (error) {
+      NextResponse.json({ error: error.issues?.[0]?.message }, { status: 400 });
     }
 
     // find school in database
-    let school = await prisma.school.findUnique({
+    let school = await prisma.school.findFirst({
       where: {
         name: data.name,
         address: data.address,
