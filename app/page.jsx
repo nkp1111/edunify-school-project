@@ -14,7 +14,7 @@ export default async function Home() {
         <Link href="/addSchool" className="text-primary underline">Add new school</Link>
       </div>
 
-      <div className="lg:w-[90%] w-full mx-2 mt-5">
+      <div className="lg:w-[90%] w-full mx-2 mt-5 flex flex-wrap gap-10 ">
         {schools?.map((school, index) => (
           <SchoolCard key={index} school={school} />
         ))}

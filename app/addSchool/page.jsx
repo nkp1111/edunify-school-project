@@ -6,15 +6,40 @@ import { useForm } from "react-hook-form";
 import { addNewSchool } from "../../lib/school.js";
 import { notify } from "../../lib/alert.js";
 
+
+const convertFileToBase64 = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result); // Remove the data URL part
+    reader.onerror = reject;
+    reader.readAsDataURL(file); // This will read the file as a data URL
+  });
+};
+
 export default function AddSchool() {
   const router = useRouter();
   const { register, handleSubmit, formState: { errors }, watch } = useForm();
 
-  const onSubmit = (data) => {
-    const { email, contact, name, address, city, state, } = data;
-    console.log(data)
-    addNewSchool({ email_id: email, contact, name, address, city, state, }).then(data => {
-      // console.log(data, "auth data")
+  const onSubmit = async (submittedData) => {
+    const { email, contact, name, address, city, state, image } = submittedData;
+    let imageBase64 = null;
+
+    if (image) {
+      try {
+        imageBase64 = await convertFileToBase64(image[0]);
+        submittedData.image = imageBase64;
+      } catch (error) {
+        console.log(error)
+        notify("Failed to convert image to Base64", "error");
+        submittedData.image = null;
+        return;
+      }
+    }
+
+    submittedData.email_id = email;
+
+    // if (submittedData) return;
+    addNewSchool(submittedData).then(data => {
       if (!data || data.error) {
         notify(data.error || "Something went wrong", "error");
       } else {
@@ -41,7 +66,7 @@ export default function AddSchool() {
 
         <label className="form-control w-full">
           <div className="label">
-            <span className="label-text text-base">School name</span>
+            <span className="label-text text-base">School name  <sup className="text-error">*</sup></span>
           </div>
           <input
             type="text"
@@ -62,7 +87,7 @@ export default function AddSchool() {
 
         <label className="form-control w-full">
           <div className="label">
-            <span className="label-text text-base">Address</span>
+            <span className="label-text text-base">Address  <sup className="text-error">*</sup></span>
           </div>
           <input
             type="text"
@@ -81,7 +106,7 @@ export default function AddSchool() {
         <div className="flex items-center justify-between gap-2">
           <label className="form-control w-full">
             <div className="label">
-              <span className="label-text text-base">City</span>
+              <span className="label-text text-base">City  <sup className="text-error">*</sup></span>
             </div>
             <input
               type="text"
@@ -97,7 +122,7 @@ export default function AddSchool() {
 
           <label className="form-control w-full">
             <div className="label">
-              <span className="label-text text-base">State</span>
+              <span className="label-text text-base">State  <sup className="text-error">*</sup></span>
             </div>
             <input
               type="text"
@@ -116,7 +141,7 @@ export default function AddSchool() {
         <div className="flex items-center justify-between gap-2">
           <label className="form-control w-full">
             <div className="label">
-              <span className="label-text text-base">Contact</span>
+              <span className="label-text text-base">Contact  <sup className="text-error">*</sup></span>
             </div>
             <input
               type="text"
@@ -136,7 +161,7 @@ export default function AddSchool() {
 
           <label className="form-control w-full">
             <div className="label">
-              <span className="label-text text-base">Email</span>
+              <span className="label-text text-base">Email  <sup className="text-error">*</sup></span>
             </div>
             <input
               type="email"

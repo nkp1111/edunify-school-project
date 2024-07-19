@@ -15,10 +15,13 @@ export default function SchoolCard({ school }) {
 
   return (
     <article className="card card-compact bg-base-100 w-96 shadow-xl">
-      <figure className="bg-black/30">
+      <figure className="bg-black/30 h-48">
         <Image
           src={schoolImage}
           alt={"."}
+          width={380}
+          height={300}
+          className="h-auto aspect-auto"
         />
       </figure>
       <div className="card-body">
@@ -27,10 +30,10 @@ export default function SchoolCard({ school }) {
         <p>{schoolAddress}</p>
         <div className="card-actions">
           <a className="btn btn-primary flex-1 flex-row flex-nowrap gap-2 group" href={`tel:${schoolPhone}`}>
-            <Image src={phoneSvg} alt={"."} className="w-5 h-5 group-hover:scale-105 transition-transform duration-300 ease-linear" />
+            <Image src={phoneSvg} alt={"."} className="w-5 h-5 group-hover:scale-105 transition-transform duration-300 ease-linear" width={16} height={16} />
             Contact Now</a>
           <a className="btn btn-secondary flex-1 flex-row flex-nowrap gap-2 group" href={`mailto:${schoolMail}`}>
-            <Image src={mailSvg} alt={"."} className="w-5 h-5 group-hover:scale-105 transition-transform duration-300 ease-linear" />
+            <Image src={mailSvg} alt={"."} className="w-5 h-5 group-hover:scale-105 transition-transform duration-300 ease-linear" width={16} height={16} />
             Email Now</a>
         </div>
       </div>
